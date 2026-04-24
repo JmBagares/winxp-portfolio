@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .text-shadow-desktop {
+    text-shadow: 1px 1px 2px black;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  overflow: hidden; /* Prevent scrolling for the desktop shell */
+}
+
+.xp-desktop-icon {
+  user-select: none;
+}
+
+.xp-desktop-label {
+  display: -webkit-box;
+  max-width: 72px;
+  min-height: 28px;
+  padding: 1px 3px;
+  overflow: hidden;
+  color: #ffffff;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 14px;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.95);
+  text-wrap: balance;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.xp-desktop-label-selected {
+  background: #316ac5;
+  outline: 1px dotted #f3f9ff;
+  outline-offset: -1px;
+  text-shadow: none;
+}
+
+/* Windows XP Scrollbar */
+::-webkit-scrollbar {
+  width: 17px;
+  height: 17px;
+}
+::-webkit-scrollbar-track {
+  background: #ece9d8;
+  border-left: 1px solid #ffffff;
+}
+::-webkit-scrollbar-thumb {
+  background: #c3daf5;
+  border: 1px solid #3553a1;
+  border-top-color: #fff;
+  border-left-color: #fff;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9abbed;
+}
+::-webkit-scrollbar-button {
+  background: #c3daf5;
+  border: 1px solid #3553a1;
+  border-top-color: #fff;
+  border-left-color: #fff;
+  height: 17px;
+  width: 17px;
+}
+
+/* 3D Button style for Luna */
+.btn-xp {
+  background-color: #ece9d8;
+  border: 2px solid;
+  border-top-color: #fff;
+  border-left-color: #fff;
+  border-right-color: #aca899;
+  border-bottom-color: #716f64;
+  color: #000;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+.btn-xp:active {
+  border-top-color: #716f64;
+  border-left-color: #716f64;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+}
+
+/* Boot Marquee */
+.xp-marquee-container {
+  width: 154px;
+  height: 16px;
+  border: 2px solid #b2b2b2;
+  border-radius: 5px;
+  background-color: black;
+  position: relative;
+  overflow: hidden;
+}
+
+.xp-marquee-blocks {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  height: 10px;
+  display: flex;
+  gap: 2px;
+  animation: scrollMarquee 2.5s infinite linear;
+}
+
+.xp-marquee-block {
+  width: 9px;
+  height: 10px;
+  background: linear-gradient(to bottom, #2b3988 0%, #4b66d6 30%, #85aff9 50%, #4b66d6 70%, #2b3988 100%);
+  border-radius: 1px;
+}
+
+@keyframes scrollMarquee {
+  0% { transform: translateX(-40px); }
+  100% { transform: translateX(160px); }
+}
+
+/* Balloon Animations */
+@keyframes slideUp {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes growIntoWindow {
+  0% { transform: scale(1); opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { transform: scale(4) translate(-10%, -10%); opacity: 0; }
+}
+.animate-grow-out {
+  animation: growIntoWindow 0.3s ease-in forwards;
+}
