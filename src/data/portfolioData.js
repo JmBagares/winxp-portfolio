@@ -1,75 +1,86 @@
 export const portfolioData = {
   profile: {
-    name: 'Jan Manuel Bagares',
-    role: 'Full-Stack Developer',
+    name: 'Jan Manuel M. Bagares',
+    role: 'Front-End Developer',
     location: 'Remote / Philippines',
     summary:
-      'I build polished web products with a bias for clean UX, resilient frontend architecture, and strong SQL-backed systems.',
+      'Passionate and driven front-end developer focused on building polished interfaces with practical software and hardware skills.',
     about: [
-      'I am a developer who likes pairing nostalgic interface design with modern React engineering.',
-      'My work focuses on practical product development: shipping interfaces that are approachable, responsive, and backed by reliable data models.',
-      'This portfolio is intentionally framed like a Windows XP desktop to show both frontend craft and personality.'
+      'Passionate and driven front-end developer currently pursuing a Bachelor of Science in Computer Science.',
+      'Equipped with hands-on experience from academic and client projects using React Native, TypeScript, Tailwind CSS, Supabase, Expo, and Git-based workflows.',
+      'Knowledgeable in computer hardware, basic maintenance, networking fundamentals, PC assembly, and troubleshooting, and eager to apply both software and hardware skills in real-world development environments.'
     ]
   },
   education: [
     {
-      school: 'Computer Science Studies',
-      detail: 'Focused on software engineering fundamentals, relational databases, and user interface development.'
+      school: 'Cavite State University - Bacoor Campus',
+      detail: 'Bachelor of Science in Computer Science, 2022 - 2026.'
     },
     {
-      school: 'Continuous Technical Learning',
-      detail: 'Ongoing self-directed study in React architecture, Node services, PostgreSQL, accessibility, and interface design.'
+      school: 'University of Perpetual Help System DALTA',
+      detail: 'Senior High School, ICT Strand, 2018 - 2020.'
     }
   ],
   skills: [
     {
       category: 'Frontend',
-      items: ['React', 'Vite', 'Tailwind CSS', 'JavaScript', 'Responsive UI']
+      items: ['Expo', 'React', 'React Native', 'TypeScript', 'Tailwind CSS']
     },
     {
-      category: 'Backend',
-      items: ['Node.js', 'REST APIs', 'Authentication flows', 'Data modeling']
+      category: 'Web Foundations',
+      items: ['HTML5/CSS', 'JavaScript', 'Git', 'Supabase', 'Photoshop']
     },
     {
-      category: 'Database',
-      items: ['PostgreSQL', 'SQL optimization', 'Row-Level Security', 'Query design']
+      category: 'Systems',
+      items: ['Computer Assembly', 'Troubleshooting', 'PC Maintenance', 'Networking Basics']
     },
     {
       category: 'Workflow',
-      items: ['Git', 'Component-driven design', 'Debugging', 'Product-minded iteration']
+      items: ['Responsive UI', 'Team Collaboration', 'Debugging', 'Product-minded iteration']
     }
   ],
   projects: [
     {
-      title: 'Windows XP Portfolio',
-      summary: 'An interactive desktop-style portfolio built with React and Vite, designed to feel like a small operating system.',
-      stack: ['React', 'Vite', 'Tailwind CSS'],
-      status: 'Featured project'
+      title: 'CvSU Enrollment System (2024)',
+      summary: 'Designed and developed the responsive front end of the enrollment system using React.js, CSS, and Bootstrap. Integrated Axios for API requests, implemented real-time form validation, and collaborated with the team to connect the UI to backend services while keeping the experience modern and usable.',
+      stack: ['React.js', 'CSS', 'Bootstrap', 'Axios'],
+      status: 'Front-End Developer'
     },
     {
-      title: 'E-commerce API',
-      summary: 'A backend service for catalog, checkout, and account flows with structured validation and clean endpoint design.',
-      stack: ['Node.js', 'Express', 'PostgreSQL'],
-      status: 'Production-style backend'
+      title: 'Freelance Web Developer (2025)',
+      summary: 'Developed and deployed business websites with WordPress and Elementor, including Magnaval Services (https://magnavalservices.com) and Warduz Pet Shop (https://warduzpetshop.com). Customized themes, built responsive layouts, and kept navigation simple across devices.',
+      stack: ['WordPress', 'Elementor', 'Responsive Design'],
+      status: 'Freelance Web Developer'
     },
     {
-      title: 'SQL Security Demo',
-      summary: 'A portfolio exercise around PostgreSQL policies, access control, and practical query design.',
-      stack: ['PostgreSQL', 'SQL'],
-      status: 'Database case study'
+      title: 'PetSOS (Thesis)',
+      summary: 'Built a mobile application for community-based animal rescue using modern frameworks. Implemented geolocation features for real-time rescue reporting and tracking, designed user-friendly flows for reporting and volunteer coordination, and integrated APIs for AI-assisted response and backend data management.',
+      stack: ['React Native', 'Expo', 'APIs', 'Geolocation'],
+      status: 'Mobile App Developer'
     },
     {
-      title: 'Interactive Data Dashboards',
-      summary: 'UI experiments for surfacing operational metrics with clear layout, hierarchy, and drill-down interactions.',
-      stack: ['React', 'Charting', 'API integration'],
-      status: 'Frontend exploration'
+      title: 'Food Ecommerce',
+      summary: 'Built a modern front-end architecture using Vite and Tailwind CSS, created reusable components for product display, cart, and checkout flows, connected REST APIs from a Laravel backend, and applied mobile-first responsive design throughout the experience.',
+      stack: ['Vite', 'Tailwind CSS', 'REST API', 'Laravel'],
+      status: 'Front-End Developer'
+    },
+    {
+      title: 'Adventure Quest',
+      summary: 'Developed a 2D game project in Godot, building gameplay scenes, level layouts, and interactive systems as part of a hands-on game development workflow.',
+      stack: ['Godot', '2D Game Development', 'Level Design'],
+      status: 'Game Project'
     }
   ],
   contacts: {
-    email: 'hello@example.com',
-    github: 'https://github.com/',
-    linkedin: 'https://www.linkedin.com/',
-    website: 'https://example.com',
+    email: 'jmbagares52@gmail.com',
+    github: 'https://github.com/JmBagares',
+    linkedin: 'https://www.linkedin.com/in/jan-manuel-bagares-977760337/',
+    socialProfiles: {
+      facebook: 'https://www.facebook.com/jm.bagares.14/',
+      x: '',
+      messenger: 'https://www.facebook.com/messages/e2ee/t/9570515932985696/',
+      instagram: 'https://www.instagram.com/ziim_69/',
+    },
     message: 'Open a project window, read the resume, or use the contact shortcuts to reach out.'
   }
 };

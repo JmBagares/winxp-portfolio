@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import DesktopIcon from './DesktopIcon';
 import Taskbar from './Taskbar';
 import Window from './Window';
@@ -8,9 +8,29 @@ import ContextMenu from './ContextMenu';
 import MyComputerApp from './apps/MyComputerApp';
 import MyProjectsApp from './apps/MyProjectsApp';
 import NotepadApp from './apps/NotepadApp';
-import SqlExplorerApp from './apps/SqlExplorerApp';
 import InternetExplorerApp from './apps/InternetExplorerApp';
+import MyPicturesApp from './apps/MyPicturesApp';
+import ImageViewerApp from './apps/ImageViewerApp';
+import ImagePropertiesApp from './apps/ImagePropertiesApp';
 import { portfolioData } from '../data/portfolioData';
+import { getPicturesFolderIconUrl, pictureLibrary } from '../data/pictureLibrary';
+
+const DEFAULT_WALLPAPER = 'https://wallpaperaccess.com/full/90278.jpg';
+const WALLPAPER_STORAGE_KEY = 'xp-wallpaper-picture-id';
+const PICTURE_STATE_STORAGE_KEY = 'xp-picture-state';
+
+const readStoredValue = (key, fallbackValue) => {
+  if (typeof window === 'undefined') {
+    return fallbackValue;
+  }
+
+  try {
+    const rawValue = window.localStorage.getItem(key);
+    return rawValue ? JSON.parse(rawValue) : fallbackValue;
+  } catch {
+    return fallbackValue;
+  }
+};
 
 const DESKTOP_ITEMS = [
   {
@@ -26,10 +46,10 @@ const DESKTOP_ITEMS = [
     iconSrc: new URL('../assets/Folder View.ico', import.meta.url).href,
   },
   {
-    id: 'sql',
-    title: 'SQL Explorer',
+    id: 'pictures',
+    title: 'My Pictures',
     position: { x: 10, y: 190 },
-    iconSrc: new URL('../assets/ODBC Data Sources.ico', import.meta.url).href,
+    iconSrc: getPicturesFolderIconUrl(),
   },
   {
     id: 'resume',
@@ -54,11 +74,13 @@ const DESKTOP_ITEMS = [
 const WINDOW_LAYOUTS = {
   computer: { width: 760, height: 520 },
   projects: { width: 820, height: 560 },
-  sql: { width: 860, height: 560 },
+  pictures: { width: 860, height: 580 },
   resume: { width: 700, height: 540 },
   recycle: { width: 540, height: 360 },
   ie: { width: 960, height: 640 },
   intro: { width: 520, height: 320 },
+  imageViewer: { width: 900, height: 620 },
+  imageProperties: { width: 640, height: 430 },
 };
 
 const getTopWindowId = (windowList) => {
@@ -71,14 +93,18 @@ const getTopWindowId = (windowList) => {
 
 const buildWindowEntry = (app, zIndex, openCount) => {
   const offset = openCount % 5;
-  const layout = WINDOW_LAYOUTS[app.id] || { width: 720, height: 520 };
+  const appId = app.appId ?? app.id;
+  const windowId = app.instanceId ?? app.id;
+  const layout = app.initialSize || WINDOW_LAYOUTS[appId] || { width: 720, height: 520 };
 
   return {
     ...app,
+    id: windowId,
+    appId,
     isMinimized: false,
     zIndex,
     initialSize: layout,
-    initialPosition: {
+    initialPosition: app.initialPosition ?? {
       x: 120 + (offset * 28),
       y: 72 + (offset * 22),
     },
@@ -121,21 +147,36 @@ export default function Desktop() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedIcons, setSelectedIcons] = useState([]);
   const [marquee, setMarquee] = useState(null);
+  const [wallpaperPictureId, setWallpaperPictureId] = useState(() => readStoredValue(WALLPAPER_STORAGE_KEY, null));
+  const [pictureState, setPictureState] = useState(() => readStoredValue(PICTURE_STATE_STORAGE_KEY, { deletedIds: [], renamedById: {} }));
   const icons = useMemo(() => DESKTOP_ITEMS, []);
+  const pictures = useMemo(
+    () => pictureLibrary
+      .filter((picture) => !pictureState.deletedIds.includes(picture.id))
+      .map((picture) => ({
+        ...picture,
+        displayName: pictureState.renamedById[picture.id] || picture.defaultDisplayName,
+      })),
+    [pictureState.deletedIds, pictureState.renamedById],
+  );
+  const wallpaperUrl = useMemo(() => {
+    const selectedWallpaper = pictureLibrary.find((picture) => picture.id === wallpaperPictureId);
+    return selectedWallpaper?.src ?? DEFAULT_WALLPAPER;
+  }, [wallpaperPictureId]);
+
+  useEffect(() => {
+    window.localStorage.setItem(PICTURE_STATE_STORAGE_KEY, JSON.stringify(pictureState));
+  }, [pictureState]);
+
+  useEffect(() => {
+    window.localStorage.setItem(WALLPAPER_STORAGE_KEY, JSON.stringify(wallpaperPictureId));
+  }, [wallpaperPictureId]);
 
   useEffect(() => {
     const handleContextMenu = (event) => event.preventDefault();
     document.addEventListener('contextmenu', handleContextMenu);
     return () => document.removeEventListener('contextmenu', handleContextMenu);
   }, []);
-
-  useEffect(() => {
-    if (!activeWindowId || windows.some((windowItem) => windowItem.id === activeWindowId && !windowItem.isMinimized)) {
-      return;
-    }
-
-    setActiveWindowId(getTopWindowId(windows));
-  }, [activeWindowId, windows]);
 
   const focusWindow = (id) => {
     setWindows((currentWindows) => {
@@ -149,25 +190,35 @@ export default function Desktop() {
   };
 
   const openWindow = (app) => {
+    const windowId = app.instanceId ?? app.id;
+
     setWindows((currentWindows) => {
       const nextZIndex = Math.max(80, ...currentWindows.map((windowItem) => windowItem.zIndex || 80)) + 1;
-      const existingWindow = currentWindows.find((windowItem) => windowItem.id === app.id);
+      const existingWindow = currentWindows.find((windowItem) => windowItem.id === windowId);
 
       if (!existingWindow) {
         return [...currentWindows, buildWindowEntry(app, nextZIndex, currentWindows.length)];
       }
 
       return currentWindows.map((windowItem) => (
-        windowItem.id === app.id
-          ? { ...windowItem, isMinimized: false, zIndex: nextZIndex }
+        windowItem.id === windowId
+          ? { ...windowItem, ...app, isMinimized: false, zIndex: nextZIndex }
           : windowItem
       ));
     });
-    setActiveWindowId(app.id);
+    setActiveWindowId(windowId);
   };
 
   const closeWindow = (id) => {
-    setWindows((currentWindows) => currentWindows.filter((windowItem) => windowItem.id !== id));
+    setWindows((currentWindows) => {
+      const nextWindows = currentWindows.filter((windowItem) => windowItem.id !== id);
+
+      if (activeWindowId === id) {
+        setActiveWindowId(getTopWindowId(nextWindows));
+      }
+
+      return nextWindows;
+    });
   };
 
   const handleTaskbarWindowClick = (id) => {
@@ -188,6 +239,80 @@ export default function Desktop() {
     }
 
     focusWindow(id);
+  };
+
+  const openPictureViewer = (picture) => {
+    openWindow({
+      instanceId: `viewer:${picture.id}`,
+      appId: 'imageViewer',
+      title: picture.displayName,
+      payload: { picture },
+      initialSize: WINDOW_LAYOUTS.imageViewer,
+    });
+  };
+
+  const openPictureProperties = (picture) => {
+    openWindow({
+      instanceId: `properties:${picture.id}`,
+      appId: 'imageProperties',
+      title: `${picture.displayName} Properties`,
+      payload: { picture },
+      initialSize: WINDOW_LAYOUTS.imageProperties,
+      initialPosition: { x: 160, y: 96 },
+    });
+  };
+
+  const handleSetWallpaper = (pictureId) => {
+    setWallpaperPictureId(pictureId);
+  };
+
+  const handleRenamePicture = (pictureId, displayName) => {
+    setPictureState((currentState) => ({
+      ...currentState,
+      renamedById: {
+        ...currentState.renamedById,
+        [pictureId]: displayName,
+      },
+    }));
+
+    setWindows((currentWindows) => currentWindows.map((windowItem) => {
+      const picture = windowItem.payload?.picture;
+
+      if (!picture || picture.id !== pictureId) {
+        return windowItem;
+      }
+
+      const nextPicture = { ...picture, displayName };
+
+      return {
+        ...windowItem,
+        title: windowItem.appId === 'imageProperties' ? `${displayName} Properties` : displayName,
+        payload: { ...windowItem.payload, picture: nextPicture },
+      };
+    }));
+  };
+
+  const handleDeletePicture = (pictureId) => {
+    setPictureState((currentState) => ({
+      ...currentState,
+      deletedIds: currentState.deletedIds.includes(pictureId)
+        ? currentState.deletedIds
+        : [...currentState.deletedIds, pictureId],
+    }));
+
+    setWindows((currentWindows) => {
+      const nextWindows = currentWindows.filter((windowItem) => windowItem.payload?.picture?.id !== pictureId);
+
+      if (!nextWindows.some((windowItem) => windowItem.id === activeWindowId && !windowItem.isMinimized)) {
+        setActiveWindowId(getTopWindowId(nextWindows));
+      }
+
+      return nextWindows;
+    });
+
+    if (wallpaperPictureId === pictureId) {
+      setWallpaperPictureId(null);
+    }
   };
 
   const handleMouseDown = (event) => {
@@ -282,18 +407,31 @@ export default function Desktop() {
     }
   };
 
-  const renderAppContent = (id) => {
-    switch (id) {
+  const renderAppContent = (windowItem) => {
+    switch (windowItem.appId) {
       case 'computer':
         return <MyComputerApp />;
       case 'projects':
         return <MyProjectsApp />;
+      case 'pictures':
+        return (
+          <MyPicturesApp
+            pictures={pictures}
+            onOpenImage={openPictureViewer}
+            onSetWallpaper={handleSetWallpaper}
+            onDeletePicture={handleDeletePicture}
+            onRenamePicture={handleRenamePicture}
+            onOpenProperties={openPictureProperties}
+          />
+        );
       case 'ie':
         return <InternetExplorerApp />;
       case 'resume':
         return <NotepadApp />;
-      case 'sql':
-        return <SqlExplorerApp />;
+      case 'imageViewer':
+        return <ImageViewerApp picture={windowItem.payload?.picture} />;
+      case 'imageProperties':
+        return <ImagePropertiesApp picture={windowItem.payload?.picture} />;
       case 'intro':
         return (
           <div className="flex h-full flex-col items-center justify-center bg-white p-6 text-center font-['Tahoma']">
@@ -311,7 +449,7 @@ export default function Desktop() {
   return (
     <div
       className="relative h-screen w-screen overflow-hidden bg-[#2250E5] bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('https://wallpaperaccess.com/full/90278.jpg')" }}
+      style={{ backgroundImage: `url('${wallpaperUrl}')` }}
       onContextMenu={handleDesktopContextMenu}
     >
       <div
@@ -360,7 +498,7 @@ export default function Desktop() {
               onClose={() => closeWindow(windowItem.id)}
               onMinimize={() => handleTaskbarWindowClick(windowItem.id)}
             >
-              {renderAppContent(windowItem.id)}
+              {renderAppContent(windowItem)}
             </Window>
           )
         ))}

@@ -10,6 +10,14 @@ body {
   margin: 0;
   font-family: 'Tahoma', 'Segoe UI', sans-serif;
   overflow: hidden; /* Prevent scrolling for the desktop shell */
+  background: #2250e5;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 .xp-desktop-icon {

@@ -4,8 +4,316 @@ import { portfolioData } from '../../data/portfolioData';
 const YOUTUBE_REGEX = /(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 
 const HOME_URL = 'portfolio://home';
+const SOCIAL_URL_PREFIX = 'portfolio://social/';
 const IFRAME_FALLBACK_DELAY_MS = 2500;
 const SEARCH_PROVIDER_LABEL = 'Wikipedia';
+const RICKROLL_URL = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+const LIKE_A_PRAYER_URL = 'https://www.youtube.com/watch?v=79fzeNUqQbQ';
+
+const SOCIAL_PAGE_CONFIG = {
+  facebook: {
+    label: 'Facebook',
+    accentClassName: 'from-[#3b5998] to-[#284f9f]',
+    description: 'Shortcut opened from the IE search bar. Replace the configured Facebook URL to point this page at your actual account.',
+    defaultUrl: 'https://www.facebook.com/',
+  },
+  x: {
+    label: 'X',
+    accentClassName: 'from-[#505050] to-[#111111]',
+    description: 'Shortcut opened from the IE search bar. Replace the configured X URL to point this page at your actual account.',
+    defaultUrl: 'https://x.com/',
+  },
+  messenger: {
+    label: 'Messenger',
+    accentClassName: 'from-[#1f7bf2] to-[#7a37ff]',
+    description: 'Shortcut opened from the IE search bar. Replace the configured Messenger URL to point this page at your actual account or chat link.',
+    defaultUrl: 'https://www.messenger.com/',
+  },
+  instagram: {
+    label: 'Instagram',
+    accentClassName: 'from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]',
+    description: 'Shortcut opened from the IE search bar. Replace the configured Instagram URL to point this page at your actual account.',
+    defaultUrl: 'https://www.instagram.com/',
+  },
+};
+
+const SEARCH_SHORTCUTS = {
+  facebook: `${SOCIAL_URL_PREFIX}facebook`,
+  x: `${SOCIAL_URL_PREFIX}x`,
+  messenger: `${SOCIAL_URL_PREFIX}messenger`,
+  messanger: `${SOCIAL_URL_PREFIX}messenger`,
+  instagram: `${SOCIAL_URL_PREFIX}instagram`,
+  yt: RICKROLL_URL,
+  youtube: RICKROLL_URL,
+  pornhub: LIKE_A_PRAYER_URL,
+};
+
+const SOCIAL_MOCK_CONTENT = {
+  facebook: {
+    navItems: ['Home', 'Profile', 'Friends', 'Photos'],
+    intro: 'A profile-style mock page inside Internet Explorer, designed to feel closer to early social browsing without relying on blocked embeds.',
+    highlightTitle: 'About Jan Manuel',
+    highlightBody: 'Front-end developer building polished interfaces, portfolio experiments, and practical project work while studying Computer Science.',
+    activityTitle: 'Recent Activity',
+    activityItems: [
+      'Updated the Windows XP portfolio with custom desktop apps and an in-browser picture folder.',
+      'Worked on Adventure Quest scenes and level layout experiments in Godot.',
+      'Polished responsive project showcases for portfolio and freelance work.',
+    ],
+    sideTitle: 'Profile Snapshot',
+    sideRows: [
+      ['Name', portfolioData.profile.name],
+      ['Role', portfolioData.profile.role],
+      ['Location', portfolioData.profile.location],
+    ],
+    actionLabel: 'Visit Facebook Profile',
+  },
+  messenger: {
+    navItems: ['Inbox', 'Pinned', 'Media', 'Settings'],
+    intro: 'A Messenger-inspired mock conversation view that stays entirely inside the IE window.',
+    highlightTitle: 'Pinned Conversation',
+    highlightBody: 'This mock page makes the shortcut feel alive while still respecting the fact that Messenger blocks iframe embedding.',
+    activityTitle: 'Messages',
+    activityItems: [
+      'Jan: Hi! Thanks for checking the portfolio.',
+      'Visitor: The XP shell looks clean. What was built with React?',
+      'Jan: The desktop, windows, IE mock pages, and app interactions are all custom React components.',
+    ],
+    sideTitle: 'Quick Details',
+    sideRows: [
+      ['Status', 'Active'],
+      ['Primary Use', 'Portfolio contact shortcut'],
+      ['Theme', 'Classic blue Messenger mock'],
+    ],
+    actionLabel: 'Open Messenger Link',
+  },
+  instagram: {
+    navItems: ['Feed', 'Reels', 'Profile', 'Saved'],
+    intro: 'An Instagram-style mock profile page for the in-window IE experience.',
+    highlightTitle: '@ziim_69',
+    highlightBody: 'A compact profile mock with gallery-style cards so the shortcut feels like a real destination inside the portfolio browser.',
+    activityTitle: 'Highlights',
+    activityItems: [
+      'Pixel-inspired layouts and nostalgic UI details.',
+      'Front-end builds, project snapshots, and design experiments.',
+      'Game dev progress and interface studies.',
+    ],
+    sideTitle: 'Profile Stats',
+    sideRows: [
+      ['Posts', '12+'],
+      ['Focus', 'UI, projects, experiments'],
+      ['Handle', '@ziim_69'],
+    ],
+    actionLabel: 'Open Instagram Profile',
+  },
+};
+
+function OldInstagramMock({ socialPageConfig, socialMockContent, socialTargetUrl, openExternal }) {
+  const galleryCards = [
+    'XP desktop experiments',
+    'Adventure Quest scene',
+    'Portfolio interface pass',
+    'Freelance website snapshot',
+    'React component study',
+    'Mobile UI concept',
+    'Game dev milestone',
+    'Design reference board',
+    'Project polish notes',
+  ];
+
+  return (
+    <div className="mx-auto min-h-full max-w-[430px] bg-[#efefef] font-['Tahoma'] text-[#333]">
+      <div className="border-b border-[#18365e] bg-linear-to-b from-[#4d80b7] via-[#2d5f92] to-[#214c78] px-3 py-2 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+        <div className="flex items-center justify-between">
+          <button type="button" className="rounded border border-[#21456c] bg-linear-to-b from-[#6c94bf] to-[#355e88] px-3 py-1 text-[12px] font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">Explore</button>
+          <div className="text-[18px] font-bold tracking-wide">INSTAGRAM</div>
+          <div className="flex h-7 w-8 items-center justify-center rounded border border-[#21456c] bg-linear-to-b from-[#6c94bf] to-[#355e88] text-[16px] shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">↗</div>
+        </div>
+      </div>
+
+      <div className="border-x border-[#cfcfcf] bg-white p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+        <div className="flex gap-3">
+          <div className="flex h-[86px] w-[86px] items-center justify-center rounded-sm border border-[#c8c8c8] bg-linear-to-br from-[#f7d481] via-[#d56da1] to-[#5b8fd8] p-[3px]">
+            <div className="flex h-full w-full items-center justify-center border border-white/70 bg-[#f2e5cf] text-[30px] text-[#3d3d3d]">📷</div>
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <div className="grid grid-cols-3 divide-x divide-[#d8d8d8] rounded-sm border border-[#d8d8d8] text-center text-[11px]">
+              <div className="px-2 py-2">
+                <div className="text-[22px] font-bold text-[#333]">177</div>
+                <div className="text-[#7b7b7b]">photos</div>
+              </div>
+              <div className="px-2 py-2">
+                <div className="text-[22px] font-bold text-[#333]">6.4m</div>
+                <div className="text-[#7b7b7b]">following</div>
+              </div>
+              <div className="px-2 py-2">
+                <div className="text-[22px] font-bold text-[#333]">0</div>
+                <div className="text-[#7b7b7b]">followers</div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => socialTargetUrl && openExternal(socialTargetUrl)}
+              className="mt-3 w-full rounded-sm border border-[#326897] bg-linear-to-b from-[#59a0db] to-[#226ba8] px-3 py-2 text-[16px] font-bold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.28)]"
+            >
+              Follow
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-3 border-b border-[#dfdfdf] pb-3">
+          <div className="text-[13px] font-bold">Instagram</div>
+          <div className="mt-1 text-[12px] text-[#5e5e5e]">Photos straight from Instagram HQ!</div>
+          <div className="mt-1 text-[12px] text-[#3b6ea8]">bit.ly/onthecouch01</div>
+        </div>
+
+        <div className="mt-3 grid grid-cols-[1fr_1fr_1.5fr_20px] overflow-hidden rounded-sm border border-[#d5d5d5] bg-[#f9f9f9] text-[12px] text-[#6b6b6b]">
+          <div className="flex items-center justify-center border-r border-[#d5d5d5] py-2 text-[#4b84b7]">▦</div>
+          <div className="flex items-center justify-center border-r border-[#d5d5d5] py-2">☰</div>
+          <div className="flex items-center justify-center gap-2 border-r border-[#d5d5d5] py-2 font-bold text-[#4d4d4d]">
+            <span>📍</span>
+            <span>Photo Map</span>
+          </div>
+          <div className="flex items-center justify-center py-2">›</div>
+        </div>
+
+        <div className="mt-3 grid grid-cols-3 gap-1.5">
+          {galleryCards.map((label, index) => (
+            <div key={label} className={`aspect-square border border-[#d0d0d0] bg-linear-to-br ${socialPageConfig.accentClassName} p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]`}>
+              <div className="flex h-full items-end justify-start bg-white/10 p-1 text-[10px] font-bold leading-3 text-white">
+                {index + 1}. {label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function OldMessengerMock({ socialTargetUrl, openExternal }) {
+  const conversationList = [
+    {
+      name: 'Jeff Bogle',
+      preview: 'Hey, so thank you again for every...',
+      time: 'Tue',
+      active: true,
+    },
+    {
+      name: 'Michael Sitarzewski',
+      preview: ':)',
+      time: 'Tue',
+      active: false,
+    },
+  ];
+
+  const messages = [
+    {
+      author: 'Jeff Bogle',
+      text: 'Messenger mock layout looks much closer to the old interface now.',
+      time: '6/8, 3:42pm',
+    },
+    {
+      author: 'Dave Taylor',
+      text: 'Nice. Keep the nostalgic styling but make the portfolio actions clear and usable.',
+      time: '6/8, 3:45pm',
+    },
+  ];
+
+  return (
+    <div className="min-h-full bg-[#f1f1f1] font-['Tahoma'] text-[12px] text-[#333]">
+      <div className="border-b border-[#1c3c6f] bg-linear-to-b from-[#334c8a] via-[#2b4685] to-[#213a71] px-3 py-2 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <div className="flex h-6 w-6 items-center justify-center rounded-sm bg-[#fff] text-[16px] font-bold text-[#2c4c8f]">f</div>
+            <div className="flex h-7 w-[340px] items-center rounded-sm border border-[#2a4378] bg-white px-2 text-[#5a5a5a]">
+              Search Facebook
+            </div>
+          </div>
+          <div className="flex items-center gap-4 text-[12px] font-bold">
+            <span>Dave</span>
+            <span>Home</span>
+            <span>👥</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid min-h-[420px] grid-cols-[290px_minmax(0,1fr)] border-x border-[#d7d7d7] bg-white">
+        <div className="border-r border-[#d9d9d9] bg-[#fbfbfb]">
+          <div className="flex items-center justify-between border-b border-[#e3e3e3] px-4 py-3 text-[13px]">
+            <div className="font-bold text-[#444]">Inbox <span className="ml-2 font-normal text-[#888]">Other</span></div>
+            <div className="text-[#888]">More ▾</div>
+          </div>
+
+          <div className="border-b border-[#ececec] px-4 py-3">
+            <div className="flex items-center rounded-sm border border-[#d2d2d2] bg-white px-2 py-1 text-[#9b9b9b]">Search</div>
+          </div>
+
+          <div>
+            {conversationList.map((conversation) => (
+              <div
+                key={conversation.name}
+                className={`grid grid-cols-[50px_minmax(0,1fr)_36px] items-start gap-3 border-b border-[#ececec] px-4 py-3 ${conversation.active ? 'bg-[#405e9d] text-white' : 'bg-white text-[#333]'}`}
+              >
+                <div className={`flex h-10 w-10 items-center justify-center rounded-sm ${conversation.active ? 'bg-[#203b75]' : 'bg-[#d7dce7]'} text-[14px] font-bold`}>
+                  {conversation.name.split(' ').map((part) => part[0]).join('').slice(0, 2)}
+                </div>
+                <div className="min-w-0">
+                  <div className={`font-bold ${conversation.active ? 'text-white' : 'text-[#1e2b44]'}`}>{conversation.name}</div>
+                  <div className={`truncate text-[12px] ${conversation.active ? 'text-white/90' : 'text-[#666]'}`}>{conversation.preview}</div>
+                </div>
+                <div className={`text-right text-[12px] ${conversation.active ? 'text-white/90' : 'text-[#777]'}`}>{conversation.time}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white">
+          <div className="flex items-center justify-between border-b border-[#e5e5e5] px-6 py-3">
+            <div className="text-[18px] font-bold text-[#2c2c2c]">Jeff Bogle</div>
+            <div className="flex items-center gap-2 text-[12px]">
+              <button type="button" className="rounded-sm border border-[#cfcfcf] bg-[#f7f7f7] px-3 py-1 font-bold">+ New Message</button>
+              <span className="rounded-sm border border-[#d5d5d5] bg-[#fafafa] px-2 py-1">◻</span>
+              <span className="rounded-sm border border-[#d5d5d5] bg-[#fafafa] px-2 py-1">⚙</span>
+              <span className="rounded-sm border border-[#d5d5d5] bg-[#fafafa] px-2 py-1">⌕</span>
+            </div>
+          </div>
+
+          <div className="px-6 py-6 text-center text-[12px] text-[#a2a2a2]">Conversation started Monday</div>
+
+          <div className="space-y-5 px-6 pb-6">
+            {messages.map((message) => (
+              <div key={`${message.author}-${message.time}`} className="grid grid-cols-[48px_minmax(0,1fr)_100px] gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#d7dce7] text-[14px] font-bold text-[#2b3d66]">
+                  {message.author.split(' ').map((part) => part[0]).join('').slice(0, 2)}
+                </div>
+                <div className="min-w-0">
+                  <div className="font-bold text-[#24448a]">{message.author}</div>
+                  <div className="mt-1 rounded-sm bg-[#f5f7fb] px-3 py-2 text-[13px] leading-5 text-[#4d4d4d]">{message.text}</div>
+                </div>
+                <div className="pt-6 text-right text-[12px] text-[#9a9a9a]">{message.time}</div>
+              </div>
+            ))}
+          </div>
+
+          {socialTargetUrl && (
+            <div className="border-t border-[#ececec] px-6 py-3">
+              <button
+                type="button"
+                onClick={() => openExternal(socialTargetUrl)}
+                className="rounded-sm border border-[#35558f] bg-linear-to-b from-[#5a7fc5] to-[#36579c] px-4 py-2 text-[12px] font-bold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
+              >
+                Open Real Messenger Link
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function looksLikeUrl(value) {
   return value.includes('.') || value.startsWith('http://') || value.startsWith('https://');
@@ -13,6 +321,19 @@ function looksLikeUrl(value) {
 
 function getSearchUrl(query) {
   return `https://en.m.wikipedia.org/w/index.php?search=${encodeURIComponent(query)}`;
+}
+
+function getShortcutTarget(value) {
+  const normalized = value.trim().toLowerCase();
+  return SEARCH_SHORTCUTS[normalized] ?? null;
+}
+
+function isSocialPage(url) {
+  return url.startsWith(SOCIAL_URL_PREFIX);
+}
+
+function getSocialKey(url) {
+  return url.replace(SOCIAL_URL_PREFIX, '').trim().toLowerCase();
 }
 
 function isYouTubeDomain(url) {
@@ -52,7 +373,12 @@ export default function InternetExplorerApp() {
       return;
     }
 
-    if (!target.startsWith('http://') && !target.startsWith('https://')) {
+    const shortcutTarget = getShortcutTarget(target);
+    if (shortcutTarget) {
+      target = shortcutTarget;
+    }
+
+    if (!target.startsWith('http://') && !target.startsWith('https://') && !target.startsWith('portfolio://')) {
       if (!looksLikeUrl(target)) {
         target = getSearchUrl(target);
       } else {
@@ -113,7 +439,15 @@ export default function InternetExplorerApp() {
 
   const embedUrl = isYouTube(currentUrl) ? getEmbedUrl(currentUrl) : null;
   const isHomePage = currentUrl === HOME_URL;
-  const canOpenExternally = !isHomePage && Boolean(currentUrl);
+  const isSocialShortcutPage = isSocialPage(currentUrl);
+  const socialPageKey = isSocialShortcutPage ? getSocialKey(currentUrl) : null;
+  const socialPageConfig = socialPageKey ? SOCIAL_PAGE_CONFIG[socialPageKey] : null;
+  const socialProfiles = portfolioData.contacts.socialProfiles ?? {};
+  const socialTargetUrl = socialPageKey
+    ? (socialProfiles[socialPageKey] || socialPageConfig?.defaultUrl || '')
+    : '';
+  const socialMockContent = socialPageKey ? SOCIAL_MOCK_CONTENT[socialPageKey] : null;
+  const canOpenExternally = !isHomePage && !isSocialShortcutPage && Boolean(currentUrl);
   const isBlockedYouTubeShell = !embedUrl && isYouTubeDomain(currentUrl);
 
   const openExternal = (url) => {
@@ -135,6 +469,117 @@ export default function InternetExplorerApp() {
 
   const handleLoadComplete = () => {
     handleLoad();
+  };
+
+  const renderSocialMockPage = () => {
+    if (!socialPageConfig) {
+      return null;
+    }
+
+    if (!socialMockContent) {
+      return (
+        <div className="h-full overflow-auto bg-white p-5 text-[12px] text-[#1f1f1f]">
+          <div className={`mb-4 rounded border border-[#8aa6d8] bg-linear-to-r ${socialPageConfig.accentClassName} p-4 text-white shadow-[inset_1px_1px_rgba(255,255,255,0.15)]`}>
+            <div className="text-[24px] font-bold tracking-wide">{socialPageConfig.label}</div>
+            <div className="mt-1 text-[12px] text-white/90">In-window shortcut page</div>
+          </div>
+          <div className="rounded border border-[#d5d5d5] p-4">
+            <p className="text-sm">No custom mock layout is configured for this shortcut yet.</p>
+          </div>
+        </div>
+      );
+    }
+
+    if (socialPageKey === 'instagram') {
+      return (
+        <OldInstagramMock
+          socialPageConfig={socialPageConfig}
+          socialMockContent={socialMockContent}
+          socialTargetUrl={socialTargetUrl}
+          openExternal={openExternal}
+        />
+      );
+    }
+
+    if (socialPageKey === 'messenger') {
+      return <OldMessengerMock socialTargetUrl={socialTargetUrl} openExternal={openExternal} />;
+    }
+
+    return (
+      <div className="h-full overflow-auto bg-[#f3f6fb] text-[12px] text-[#1f1f1f]">
+        <div className={`border-b border-[#8aa6d8] bg-linear-to-r ${socialPageConfig.accentClassName} px-5 py-4 text-white`}>
+          <div className="text-[24px] font-bold tracking-wide">{socialPageConfig.label}</div>
+          <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
+            {socialMockContent.navItems.map((item) => (
+              <span key={item} className="rounded border border-white/25 bg-white/12 px-2 py-1">{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid gap-4 p-4 md:grid-cols-[220px_minmax(0,1fr)]">
+          <aside className="rounded border border-[#c7d3e5] bg-white p-3 shadow-[inset_1px_1px_0_rgba(255,255,255,0.9)]">
+            <div className={`mb-3 flex h-18 w-18 items-center justify-center rounded border border-[#9fb3d8] bg-linear-to-br ${socialPageConfig.accentClassName} text-[28px] font-bold text-white`}>
+              {socialPageConfig.label.slice(0, 1)}
+            </div>
+            <div className="text-[14px] font-bold text-[#193a7a]">{portfolioData.profile.name}</div>
+            <div className="mt-1 text-[11px] text-[#596b88]">{socialMockContent.intro}</div>
+
+            <div className="mt-4 border-t border-[#e3e8f2] pt-3">
+              <div className="mb-2 text-[11px] font-bold text-[#003399]">{socialMockContent.sideTitle}</div>
+              <div className="space-y-2 text-[11px]">
+                {socialMockContent.sideRows.map(([label, value]) => (
+                  <div key={label}>
+                    <div className="text-[#73829a]">{label}</div>
+                    <div className="font-bold text-[#23334f]">{value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {socialTargetUrl && (
+              <button
+                type="button"
+                onClick={() => openExternal(socialTargetUrl)}
+                className="mt-4 w-full border border-[#0b3b8c] bg-linear-to-b from-[#3f8cf3] to-[#1d67d4] px-3 py-1.5 text-[11px] font-bold text-white shadow-[inset_1px_1px_rgba(255,255,255,0.45)] hover:from-[#5a9df6] hover:to-[#2f75df]"
+              >
+                {socialMockContent.actionLabel}
+              </button>
+            )}
+          </aside>
+
+          <main className="space-y-4">
+            <section className="rounded border border-[#c7d3e5] bg-white p-4 shadow-[inset_1px_1px_0_rgba(255,255,255,0.9)]">
+              <div className="mb-2 text-[14px] font-bold text-[#193a7a]">{socialMockContent.highlightTitle}</div>
+              <p className="m-0 text-[12px] leading-5 text-[#2d3a4f]">{socialMockContent.highlightBody}</p>
+            </section>
+
+            <section className="rounded border border-[#c7d3e5] bg-white p-4 shadow-[inset_1px_1px_0_rgba(255,255,255,0.9)]">
+              <div className="mb-3 text-[14px] font-bold text-[#193a7a]">{socialMockContent.activityTitle}</div>
+              <div className="space-y-3">
+                {socialMockContent.activityItems.map((item, index) => (
+                  <div key={`${socialPageKey}-${index}`} className="rounded border border-[#e4eaf5] bg-[#f8fbff] px-3 py-2 text-[12px] leading-5 text-[#314258]">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {socialPageKey === 'instagram' && (
+              <section className="rounded border border-[#c7d3e5] bg-white p-4 shadow-[inset_1px_1px_0_rgba(255,255,255,0.9)]">
+                <div className="mb-3 text-[14px] font-bold text-[#193a7a]">Mock Gallery</div>
+                <div className="grid grid-cols-3 gap-3">
+                  {[1, 2, 3, 4, 5, 6].map((card) => (
+                    <div key={card} className={`aspect-square rounded border border-[#d8dfea] bg-linear-to-br ${socialPageConfig.accentClassName} p-2 text-white shadow-[inset_1px_1px_rgba(255,255,255,0.18)]`}>
+                      <div className="flex h-full items-end text-[11px] font-bold">Post {card}</div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+          </main>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -339,6 +784,8 @@ export default function InternetExplorerApp() {
             title="YouTube Player"
             onLoad={handleLoadComplete}
           />
+        ) : isSocialShortcutPage && socialPageConfig ? (
+          renderSocialMockPage()
         ) : (
           // Normal iframe
           <>
@@ -395,6 +842,8 @@ export default function InternetExplorerApp() {
         <div className="flex-1 truncate">
           {hasError
             ? 'Cannot display webpage'
+            : isSocialShortcutPage
+              ? `${socialPageConfig?.label ?? 'Social'} shortcut loaded`
             : isBlockedYouTubeShell
               ? 'YouTube browsing is limited in this window'
             : showExternalFallback
