@@ -1,8 +1,22 @@
 import React from 'react';
 import { User, LogOut, Power, Folder, Monitor, Settings, Search, HelpCircle, Briefcase, FileCode, Globe, Users } from 'lucide-react';
+import { getXpTheme } from '../data/xpThemes';
 
-export default function StartMenu({ isOpen, toggleMenu, onOpenWindow, contacts }) {
+export default function StartMenu({
+  isOpen,
+  toggleMenu,
+  onOpenWindow,
+  onOpenRun,
+  onOpenCommandPalette,
+  onRequestRestart,
+  onRequestShutdown,
+  contacts,
+  responsiveMode = 'desktop',
+  theme = 'luna',
+}) {
   if (!isOpen) return null;
+  const isMobile = responsiveMode === 'mobile';
+  const activeTheme = getXpTheme(theme);
 
   const handleOpenWindow = (id) => {
     onOpenWindow?.(id);
@@ -15,10 +29,10 @@ export default function StartMenu({ isOpen, toggleMenu, onOpenWindow, contacts }
   };
 
   return (
-    <div className="absolute bottom-10 left-0 z-50 flex w-95 flex-col overflow-hidden rounded-tr-lg border border-[#003399] bg-white font-['Tahoma'] select-none shadow-2xl">
+    <div className={`absolute z-50 flex flex-col overflow-hidden border border-[#003399] bg-white font-['Tahoma'] select-none shadow-2xl ${isMobile ? 'bottom-12 left-0 right-0 max-h-[calc(100vh-3rem)] rounded-t-2xl' : 'bottom-10 left-0 w-95 rounded-tr-lg'}`}>
       
       {/* Header */}
-      <div className="flex h-16 items-center border-b border-[#00136b] bg-linear-to-r from-[#215dc6] via-[#358cf5] to-[#215dc6] px-2 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
+      <div className={`flex h-16 items-center border-b border-[#00136b] bg-linear-to-r ${activeTheme.startHeader} px-2 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]`}>
         <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-md border-2 border-white/80 bg-white shadow-md">
           <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" className="w-full h-full" />
         </div>
@@ -26,9 +40,9 @@ export default function StartMenu({ isOpen, toggleMenu, onOpenWindow, contacts }
       </div>
 
       {/* Columns */}
-      <div className="flex h-87.5">
+      <div className={`flex ${isMobile ? 'max-h-[70vh] flex-col overflow-auto' : 'h-87.5'}`}>
         {/* Left Column (White) */}
-        <div className="w-[55%] bg-white flex flex-col py-2 border-r border-[#d4d0c8]">
+        <div className={`bg-white flex flex-col py-2 ${isMobile ? 'w-full border-b border-[#d4d0c8]' : 'w-[55%] border-r border-[#d4d0c8]'}`}>
           <div className="flex flex-col gap-1 px-1">
              <button type="button" onClick={() => handleOpenWindow('ie')} className="flex items-center space-x-2 px-2 py-2 hover:bg-[#2f71cd] hover:text-white rounded-sm text-left group">
                <Briefcase size={28} className="text-gray-600 group-hover:text-white" />
@@ -65,7 +79,7 @@ export default function StartMenu({ isOpen, toggleMenu, onOpenWindow, contacts }
         </div>
 
         {/* Right Column (Light Blue) */}
-        <div className="w-[45%] bg-[#d3e5fa] flex flex-col py-2 border-l border-white text-[#00136b]">
+        <div className={`bg-[#d3e5fa] flex flex-col py-2 text-[#00136b] ${isMobile ? 'w-full border-t border-white' : 'w-[45%] border-l border-white'}`}>
            <div className="flex flex-col gap-0.5 px-1 font-bold text-sm">
               <button type="button" onClick={() => handleOpenWindow('projects')} className="flex items-center space-x-2 px-2 py-1.5 hover:bg-[#2f71cd] hover:text-white rounded-sm text-left">
                <Folder size={18} fill="#f1ca4b" className="text-[#f1ca4b]" />
@@ -82,29 +96,37 @@ export default function StartMenu({ isOpen, toggleMenu, onOpenWindow, contacts }
 
              <div className="my-2 border-t border-[#8fbdf8]" />
 
-             <button className="flex items-center space-x-2 px-2 py-1.5 hover:bg-[#2f71cd] hover:text-white rounded-sm text-left font-normal">
+             <button type="button" onClick={() => handleOpenWindow('controlPanel')} className="flex items-center space-x-2 px-2 py-1.5 hover:bg-[#2f71cd] hover:text-white rounded-sm text-left font-normal">
                <Settings size={18} />
                <span>Control Panel</span>
+             </button>
+             <button type="button" onClick={() => handleOpenWindow('messenger')} className="flex items-center space-x-2 px-2 py-1.5 hover:bg-[#2f71cd] hover:text-white rounded-sm text-left font-normal">
+               <User size={18} />
+               <span>MSN Messenger</span>
              </button>
              <button className="flex items-center space-x-2 px-2 py-1.5 hover:bg-[#2f71cd] hover:text-white rounded-sm text-left font-normal">
                <HelpCircle size={18} />
                <span>Help and Support</span>
              </button>
-             <button className="flex items-center space-x-2 px-2 py-1.5 hover:bg-[#2f71cd] hover:text-white rounded-sm text-left font-normal">
+             <button type="button" onClick={() => { onOpenRun?.(); toggleMenu(); }} className="flex items-center space-x-2 px-2 py-1.5 hover:bg-[#2f71cd] hover:text-white rounded-sm text-left font-normal">
                <Search size={18} />
-               <span>Search</span>
+               <span>Run...</span>
+             </button>
+             <button type="button" onClick={() => { onOpenCommandPalette?.(); toggleMenu(); }} className="flex items-center space-x-2 px-2 py-1.5 hover:bg-[#2f71cd] hover:text-white rounded-sm text-left font-normal">
+               <Search size={18} />
+               <span>Command Palette</span>
              </button>
            </div>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="flex h-10 items-center justify-end space-x-4 border-t border-white/50 bg-linear-to-r from-[#215dc6] via-[#358cf5] to-[#215dc6] px-4">
-         <button className="flex items-center space-x-1 text-white hover:brightness-110">
+      <div className={`flex items-center justify-end space-x-4 border-t border-white/50 bg-linear-to-r ${activeTheme.startFooter} px-4 ${isMobile ? 'h-12' : 'h-10'}`}>
+         <button type="button" onClick={onRequestRestart} className="flex items-center space-x-1 text-white hover:brightness-110">
            <div className="bg-[#e2a829] rounded-sm p-1 border border-white/50"><LogOut size={16} /></div>
-           <span className="text-xs font-bold">Log Off</span>
+           <span className="text-xs font-bold">Restart</span>
          </button>
-         <button className="flex items-center space-x-1 text-white hover:brightness-110">
+         <button type="button" onClick={onRequestShutdown} className="flex items-center space-x-1 text-white hover:brightness-110">
            <div className="bg-[#e04343] rounded-sm p-1 border border-white/50"><Power size={16} /></div>
            <span className="text-xs font-bold">Turn Off Computer</span>
          </button>

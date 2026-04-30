@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { getXpTheme } from '../data/xpThemes';
 
 export default function Window({
   windowId,
@@ -10,6 +11,8 @@ export default function Window({
   onFocus,
   onClose,
   onMinimize,
+  responsiveMode = 'desktop',
+  theme = 'luna',
   children,
 }) {
   const nodeRef = useRef(null);
@@ -17,11 +20,19 @@ export default function Window({
   const [size, setSize] = useState(initialSize ?? { width: 720, height: 520 });
   const [isMaximized, setIsMaximized] = useState(false);
   const [restoreState, setRestoreState] = useState(null);
+  const isMobile = responsiveMode === 'mobile';
+  const isTablet = responsiveMode === 'tablet';
+  const activeTheme = getXpTheme(theme);
 
-  const clampSize = (nextWidth, nextHeight, parentWidth, parentHeight) => ({
-    width: Math.max(420, Math.min(nextWidth, parentWidth - 24)),
-    height: Math.max(260, Math.min(nextHeight, parentHeight - 48)),
-  });
+  const clampSize = (nextWidth, nextHeight, parentWidth, parentHeight) => {
+    const minWidth = isMobile ? 0 : isTablet ? 320 : 420;
+    const minHeight = isMobile ? 0 : isTablet ? 220 : 260;
+
+    return {
+      width: Math.max(minWidth, Math.min(nextWidth, parentWidth - 24)),
+      height: Math.max(minHeight, Math.min(nextHeight, parentHeight - 48)),
+    };
+  };
 
   const handleFocus = () => {
     onFocus?.(windowId);
@@ -44,7 +55,7 @@ export default function Window({
   };
 
   const startDrag = (event) => {
-    if (isMaximized || event.button !== 0) {
+    if (isMobile || isMaximized || event.button !== 0) {
       return;
     }
 
@@ -74,7 +85,7 @@ export default function Window({
   const toggleMaximize = () => {
     const parent = nodeRef.current?.parentElement;
 
-    if (!parent) {
+    if (!parent || isMobile) {
       return;
     }
 
@@ -112,19 +123,48 @@ export default function Window({
   }, [isMaximized]);
 
   useEffect(() => {
-    if (isMaximized) {
+    if (isMaximized || isMobile) {
       return;
     }
 
     setPosition((currentPosition) => clampPosition(currentPosition.x, currentPosition.y));
-  }, [isMaximized, size.width, size.height]);
+  }, [isMaximized, isMobile, size.width, size.height]);
+
+  useEffect(() => {
+    const parent = nodeRef.current?.parentElement;
+
+    if (!parent) {
+      return;
+    }
+
+    if (isMobile) {
+      setIsMaximized(false);
+      setPosition({ x: 0, y: 0 });
+      setSize({ width: parent.clientWidth, height: parent.clientHeight - 40 });
+      return;
+    }
+
+    const clampedSize = clampSize(size.width, size.height, parent.clientWidth, parent.clientHeight);
+    setSize((currentSize) => (
+      currentSize.width === clampedSize.width && currentSize.height === clampedSize.height ? currentSize : clampedSize
+    ));
+    setPosition((currentPosition) => {
+      const nextPosition = clampPosition(currentPosition.x, currentPosition.y, clampedSize);
+
+      if (nextPosition.x === currentPosition.x && nextPosition.y === currentPosition.y) {
+        return currentPosition;
+      }
+
+      return nextPosition;
+    });
+  }, [isMobile, isTablet, size.width, size.height]);
 
   const startResize = (direction, event) => {
     event.preventDefault();
     event.stopPropagation();
     handleFocus();
 
-    if (isMaximized) {
+    if (isMobile || isMaximized) {
       return;
     }
 
@@ -208,39 +248,39 @@ export default function Window({
   return (
     <div
       ref={nodeRef}
-      className={`absolute flex flex-col overflow-hidden rounded-t-lg bg-[#0055e5] pb-1 px-1 shadow-2xl ${isActive ? 'ring-1 ring-white/35' : ''}`}
+      className={`absolute flex flex-col overflow-hidden px-1 pb-1 shadow-2xl ${activeTheme.windowFrame} ${isMobile ? 'rounded-none' : 'rounded-t-lg'} ${isActive ? 'ring-1 ring-white/35' : ''}`}
       onMouseDown={handleFocus}
       style={{ left: `${position.x}px`, top: `${position.y}px`, width: `${size.width}px`, height: `${size.height}px`, zIndex }}
     >
       <div
-        className="window-header flex cursor-grab items-center justify-between rounded-t-md bg-linear-to-b from-[#0058ee] via-[#3593ff] to-[#0058ee] px-2 py-1 active:cursor-grabbing"
+        className={`window-header flex items-center justify-between bg-linear-to-b ${activeTheme.windowHeader} px-2 py-1 ${isMobile ? 'rounded-none' : 'rounded-t-md'} ${isMobile ? 'cursor-default' : 'cursor-grab active:cursor-grabbing'}`}
         onDoubleClick={toggleMaximize}
         onMouseDown={startDrag}
       >
-        <span className="select-none text-sm font-bold tracking-wide text-white drop-shadow-[1px_1px_2px_rgba(0,0,0,0.8)]">
+        <span className={`select-none font-bold tracking-wide text-white drop-shadow-[1px_1px_2px_rgba(0,0,0,0.8)] ${isMobile ? 'text-[13px]' : 'text-sm'}`}>
           {title}
         </span>
 
         <div className="window-controls flex space-x-0.5">
-          <button type="button" onClick={onMinimize} className="flex h-5.5 w-5.5 items-center justify-center rounded-xs border border-white bg-[#3a72f0] shadow-sm hover:bg-[#5b8af4] active:bg-[#1a4dc0]">
+          <button type="button" onClick={onMinimize} className={`flex items-center justify-center rounded-xs border border-white bg-[#3a72f0] shadow-sm hover:bg-[#5b8af4] active:bg-[#1a4dc0] ${isMobile ? 'h-7 w-7' : 'h-5.5 w-5.5'}`}>
             <span className="mt-2 h-0.5 w-2.5 bg-white"></span>
           </button>
-          <button type="button" onClick={toggleMaximize} className="flex h-5.5 w-5.5 items-center justify-center rounded-xs border border-white bg-[#3a72f0] shadow-sm hover:bg-[#5b8af4] active:bg-[#1a4dc0]">
+          <button type="button" onClick={toggleMaximize} className={`flex items-center justify-center rounded-xs border border-white bg-[#3a72f0] shadow-sm hover:bg-[#5b8af4] active:bg-[#1a4dc0] ${isMobile ? 'hidden' : 'h-5.5 w-5.5'}`}>
             <span className="mt-px h-2.5 w-2.5 border-2 border-white"></span>
           </button>
-          <button type="button" onClick={onClose} className="flex h-5.5 w-5.5 items-center justify-center rounded-xs border border-white bg-[#e04343] shadow-sm hover:bg-[#ff5a5a] active:bg-[#b02222]">
+          <button type="button" onClick={onClose} className={`flex items-center justify-center rounded-xs border border-white bg-[#e04343] shadow-sm hover:bg-[#ff5a5a] active:bg-[#b02222] ${isMobile ? 'h-7 w-7' : 'h-5.5 w-5.5'}`}>
             <span className="mb-0.5 text-lg font-bold leading-none text-white drop-shadow-sm">×</span>
           </button>
         </div>
       </div>
 
       <div className="mt-0.5 flex min-h-0 flex-1 flex-col bg-[#ece9d8] p-1">
-        <div className="relative flex-1 min-h-0 overflow-auto border-t-2 border-r-2 border-b-2 border-l-2 border-t-black/40 border-r-white border-b-white border-l-black/40 bg-white p-4">
+        <div className={`relative min-h-0 flex-1 overflow-auto border-t-2 border-r-2 border-b-2 border-l-2 border-t-black/40 border-r-white border-b-white border-l-black/40 bg-white ${isMobile ? 'p-2' : 'p-4'}`}>
           {children}
         </div>
       </div>
 
-      {!isMaximized && resizeHandles.map((handle) => (
+      {!isMobile && !isMaximized && resizeHandles.map((handle) => (
         <div
           key={handle.direction}
           className={`absolute ${handle.className}`}

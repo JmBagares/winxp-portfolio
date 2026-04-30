@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Freelance site home capture</title>
+  <desc id="desc">A stylized business website landing page screenshot for freelance projects.</desc>
+  <defs>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#173978"/>
+      <stop offset="100%" stop-color="#4aa4ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#f4f7fb"/>
+  <rect x="120" y="56" width="1360" height="788" rx="28" fill="#ffffff" stroke="#d8e2ef" stroke-width="6"/>
+  <rect x="120" y="56" width="1360" height="88" rx="28" fill="#ffffff"/>
+  <rect x="172" y="86" width="210" height="28" rx="14" fill="#dce5f1"/>
+  <rect x="1006" y="90" width="110" height="20" rx="10" fill="#dce5f1"/>
+  <rect x="1150" y="90" width="110" height="20" rx="10" fill="#dce5f1"/>
+  <rect x="1294" y="90" width="110" height="20" rx="10" fill="#2f9140"/>
+  <rect x="172" y="182" width="1256" height="302" rx="28" fill="url(#hero)"/>
+  <rect x="222" y="246" width="420" height="40" rx="16" fill="#8cb4ff"/>
+  <rect x="222" y="318" width="530" height="24" rx="12" fill="#dce8ff"/>
+  <rect x="222" y="366" width="470" height="24" rx="12" fill="#dce8ff"/>
+  <rect x="222" y="420" width="210" height="62" rx="18" fill="#ffffff"/>
+  <rect x="788" y="242" width="558" height="180" rx="24" fill="#ffffff" fill-opacity="0.16"/>
+  <rect x="172" y="536" width="396" height="248" rx="24" fill="#f6f9fc" stroke="#e1e7f0" stroke-width="4"/>
+  <rect x="602" y="536" width="396" height="248" rx="24" fill="#f6f9fc" stroke="#e1e7f0" stroke-width="4"/>
+  <rect x="1032" y="536" width="396" height="248" rx="24" fill="#f6f9fc" stroke="#e1e7f0" stroke-width="4"/>
+  <text x="202" y="742" fill="#173978" font-family="Tahoma, Arial, sans-serif" font-size="56" font-weight="700">Business Website Launches</text>
+  <text x="202" y="804" fill="#6f7f97" font-family="Tahoma, Arial, sans-serif" font-size="30">WordPress and Elementor builds for service brands and storefronts</text>
+</svg>

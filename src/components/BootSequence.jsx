@@ -1,14 +1,5 @@
 import React, { useEffect } from 'react';
-
-// Pure CSS Windows XP Logo
-const XpLogo = () => (
-  <div className="flex flex-wrap w-32 h-32 mr-6 transform skew-y-[-8deg] skew-x-[-8deg] filter drop-shadow-[2px_2px_4px_rgba(0,0,0,0.8)]">
-    <div className="w-[48%] h-[48%] bg-gradient-to-br from-[#f25316] to-[#d43700] rounded-tl-lg mb-[4%] mr-[4%] shadow-[inset_2px_2px_4px_rgba(255,255,255,0.4)]"></div>
-    <div className="w-[48%] h-[48%] bg-gradient-to-br from-[#68a700] to-[#4c7a00] rounded-tr-sm mb-[4%] shadow-[inset_-2px_2px_4px_rgba(255,255,255,0.4)] relative top-[3px]"></div>
-    <div className="w-[48%] h-[48%] bg-gradient-to-br from-[#0089e6] to-[#005fb8] rounded-bl-sm mr-[4%] shadow-[inset_2px_-2px_4px_rgba(255,255,255,0.4)] relative left-[2px]"></div>
-    <div className="w-[48%] h-[48%] bg-gradient-to-br from-[#f2b300] to-[#c68800] rounded-br-lg shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.4)] relative top-[3px] left-[2px]"></div>
-  </div>
-);
+import WindowsXpBranding from './WindowsXpBranding';
 
 export default function BootSequence({ onComplete }) {
   useEffect(() => {
@@ -25,28 +16,17 @@ export default function BootSequence({ onComplete }) {
       <div className="flex flex-col items-center mt-[-10vh]">
         
         {/* Microsoft Windows XP Professional Logo Lockup */}
-        <div className="flex items-center mb-24 relative left-[-20px]">
-          
-          <XpLogo />
-          
-          <div className="flex flex-col text-white pb-2 relative">
-            <span className="text-xl leading-none absolute top-[-20px] left-[5px] tracking-wide">
-              Microsoft<sup className="text-[10px]">®</sup>
-            </span>
-            
-            <div className="flex items-start leading-none relative">
-              <span className="text-[6rem] font-bold tracking-tighter" style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}>
-                Windows
-              </span>
-              <sup className="text-[3rem] text-[#e86b24] absolute right-[-65px] top-[15px]" style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}>
-                xp
-              </sup>
-            </div>
-            
-            <span className="text-[2.2rem] leading-none mt-1 font-light tracking-widest text-white/90" style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}>
-              Professional
-            </span>
-          </div>
+        <div className="mb-24 flex flex-col items-center relative">
+          <WindowsXpBranding
+            textColor="#ffffff"
+            microsoftColor="#ffffff"
+            professionLabel="Professional"
+            professionColor="rgba(255,255,255,0.92)"
+            windowsSizeClass="text-[6rem]"
+            xpSizeClass="text-[3rem]"
+            microsoftSizeClass="text-[1.15rem]"
+            flagWidthClass="w-36"
+          />
         </div>
         
         {/* Exact Replica Marquee Loader */}

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">CvSU Enrollment dashboard capture</title>
+  <desc id="desc">A stylized dashboard screenshot for the CvSU Enrollment System project.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ebf4ff"/>
+      <stop offset="100%" stop-color="#bfd6ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect x="88" y="78" width="1424" height="70" rx="20" fill="#1d4aa8"/>
+  <rect x="110" y="101" width="220" height="24" rx="12" fill="#8fb8ff"/>
+  <rect x="1210" y="101" width="250" height="24" rx="12" fill="#4d7ae0"/>
+  <rect x="88" y="178" width="370" height="628" rx="24" fill="#ffffff" stroke="#9bb7ea" stroke-width="6"/>
+  <rect x="488" y="178" width="1024" height="280" rx="24" fill="#ffffff" stroke="#9bb7ea" stroke-width="6"/>
+  <rect x="488" y="488" width="494" height="318" rx="24" fill="#ffffff" stroke="#9bb7ea" stroke-width="6"/>
+  <rect x="1018" y="488" width="494" height="318" rx="24" fill="#ffffff" stroke="#9bb7ea" stroke-width="6"/>
+  <rect x="128" y="226" width="290" height="42" rx="16" fill="#dce8ff"/>
+  <rect x="128" y="292" width="258" height="20" rx="10" fill="#c5d9ff"/>
+  <rect x="128" y="336" width="258" height="20" rx="10" fill="#c5d9ff"/>
+  <rect x="128" y="380" width="258" height="20" rx="10" fill="#c5d9ff"/>
+  <rect x="528" y="218" width="270" height="34" rx="14" fill="#dce8ff"/>
+  <rect x="528" y="278" width="944" height="128" rx="20" fill="#eaf2ff"/>
+  <rect x="528" y="526" width="190" height="190" rx="20" fill="#4d7ae0"/>
+  <rect x="748" y="526" width="190" height="190" rx="20" fill="#7db15f"/>
+  <rect x="1058" y="526" width="404" height="36" rx="16" fill="#dce8ff"/>
+  <rect x="1058" y="590" width="404" height="24" rx="12" fill="#e8f0ff"/>
+  <rect x="1058" y="634" width="404" height="24" rx="12" fill="#e8f0ff"/>
+  <rect x="1058" y="678" width="290" height="24" rx="12" fill="#e8f0ff"/>
+  <text x="128" y="612" fill="#173978" font-family="Tahoma, Arial, sans-serif" font-size="62" font-weight="700">CvSU Enrollment</text>
+  <text x="128" y="684" fill="#4c628f" font-family="Tahoma, Arial, sans-serif" font-size="34">Responsive admissions dashboard with validation and API flows</text>
+</svg>

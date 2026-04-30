@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { Power } from 'lucide-react';
+import WindowsXpBranding from './WindowsXpBranding';
+import { areSystemSoundsEnabled } from '../utils/systemSounds';
 
 export default function LoginScreen({ onLogin }) {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const handleLogin = () => {
     setIsLoggingIn(true);
-    
-    // Play the classic Windows XP Startup sound
-    // Hack to increase volume: We play 3 overlapping audio tracks simultaneously
-    // since we cannot guarantee CORS headers for Web Audio API GainNodes from this URL.
-    const audioUrl = 'https://www.myinstants.com/media/sounds/windows-xp-startup.mp3';
-    const a1 = new Audio(audioUrl);
-    const a2 = new Audio(audioUrl);
-    const a3 = new Audio(audioUrl);
-    
-    a1.play().catch(e => console.log('Audio playback prevented'));
-    a2.play().catch(e => console.log('Audio playback prevented'));
-    a3.play().catch(e => console.log('Audio playback prevented'));
+
+    if (areSystemSoundsEnabled()) {
+      const audioUrl = 'https://www.myinstants.com/media/sounds/windows-xp-startup.mp3';
+      const a1 = new Audio(audioUrl);
+      const a2 = new Audio(audioUrl);
+      const a3 = new Audio(audioUrl);
+
+      a1.play().catch(() => {});
+      a2.play().catch(() => {});
+      a3.play().catch(() => {});
+    }
     
     // Delay the transition to Desktop to allow the animation and sound to play
     setTimeout(() => {
@@ -39,11 +40,15 @@ export default function LoginScreen({ onLogin }) {
           {/* Vertical fading line divider */}
           <div className="absolute right-0 top-[10%] h-[80%] w-px bg-linear-to-b from-transparent via-white/60 to-transparent shadow-[1px_0_2px_rgba(0,0,0,0.5)]"></div>
           
-          <div className="flex items-end text-white font-['Tahoma'] mb-6 mr-4">
-            <span className="text-4xl font-bold italic mr-1 text-shadow-desktop">Microsoft</span>
-            <span className="text-5xl font-bold italic text-white drop-shadow-[2px_2px_2px_rgba(0,0,0,0.6)]">Windows</span>
-            <span className="text-5xl font-bold italic text-orange-400 ml-2 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.6)]">XP</span>
-          </div>
+          <WindowsXpBranding
+            className="mb-6 mr-4"
+            textColor="#111111"
+            microsoftColor="#111111"
+            windowsSizeClass="text-[4.8rem]"
+            xpSizeClass="text-[2.5rem]"
+            microsoftSizeClass="text-[0.95rem]"
+            flagWidthClass="w-32"
+          />
           <p className="text-white text-lg font-['Tahoma'] mr-4 drop-shadow-md text-shadow-desktop">
             To begin, click your user name
           </p>

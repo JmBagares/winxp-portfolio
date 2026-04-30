@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">PetSOS rescue map capture</title>
+  <desc id="desc">A stylized mobile map and rescue reporting screenshot for PetSOS.</desc>
+  <rect width="1600" height="900" fill="#e7f3ef"/>
+  <rect x="188" y="60" width="1224" height="780" rx="42" fill="#133b33"/>
+  <rect x="252" y="116" width="1096" height="668" rx="34" fill="#ffffff"/>
+  <rect x="252" y="116" width="1096" height="118" rx="34" fill="#2f9140"/>
+  <rect x="306" y="160" width="280" height="30" rx="15" fill="#b4e2be"/>
+  <rect x="306" y="274" width="720" height="442" rx="28" fill="#d5f0dc"/>
+  <path d="M368 338c120 86 182 106 286 82 112-26 182-14 322 66" fill="none" stroke="#9bcc9c" stroke-width="34" stroke-linecap="round"/>
+  <path d="M452 596c140-44 202-44 340 10 124 48 192 42 278 10" fill="none" stroke="#a5d9f0" stroke-width="34" stroke-linecap="round"/>
+  <circle cx="558" cy="462" r="32" fill="#ff6b57"/>
+  <circle cx="836" cy="514" r="32" fill="#ff6b57"/>
+  <circle cx="944" cy="390" r="32" fill="#ff6b57"/>
+  <rect x="1082" y="274" width="198" height="194" rx="24" fill="#f6f9ff" stroke="#d6e5ef" stroke-width="4"/>
+  <rect x="1108" y="316" width="146" height="28" rx="14" fill="#dce8ff"/>
+  <rect x="1108" y="372" width="146" height="82" rx="18" fill="#ffefc9"/>
+  <rect x="1082" y="500" width="198" height="216" rx="24" fill="#f6f9ff" stroke="#d6e5ef" stroke-width="4"/>
+  <rect x="1108" y="544" width="146" height="24" rx="12" fill="#dce8ff"/>
+  <rect x="1108" y="590" width="146" height="24" rx="12" fill="#e7f0f8"/>
+  <rect x="1108" y="634" width="146" height="24" rx="12" fill="#e7f0f8"/>
+  <text x="310" y="770" fill="#173978" font-family="Tahoma, Arial, sans-serif" font-size="56" font-weight="700">PetSOS Rescue Map</text>
+  <text x="310" y="824" fill="#5d6f88" font-family="Tahoma, Arial, sans-serif" font-size="30">Community rescue pins, volunteer routing, and location-aware incident tracking</text>
+</svg>

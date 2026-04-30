@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">CvSU Enrollment form capture</title>
+  <desc id="desc">A stylized enrollment form screenshot for the CvSU Enrollment System project.</desc>
+  <rect width="1600" height="900" fill="#eef4ff"/>
+  <rect x="108" y="70" width="1384" height="760" rx="26" fill="#ffffff" stroke="#aac0ea" stroke-width="6"/>
+  <rect x="108" y="70" width="1384" height="94" rx="26" fill="#214ea5"/>
+  <rect x="146" y="104" width="360" height="28" rx="14" fill="#7aa5ff"/>
+  <rect x="164" y="222" width="510" height="510" rx="22" fill="#f6f9ff" stroke="#d0def6" stroke-width="4"/>
+  <rect x="718" y="222" width="718" height="510" rx="22" fill="#f6f9ff" stroke="#d0def6" stroke-width="4"/>
+  <rect x="210" y="272" width="418" height="18" rx="9" fill="#dbe8ff"/>
+  <rect x="210" y="322" width="418" height="58" rx="14" fill="#ffffff" stroke="#a7bfe7" stroke-width="3"/>
+  <rect x="210" y="422" width="418" height="18" rx="9" fill="#dbe8ff"/>
+  <rect x="210" y="472" width="418" height="58" rx="14" fill="#ffffff" stroke="#a7bfe7" stroke-width="3"/>
+  <rect x="210" y="572" width="250" height="72" rx="18" fill="#4d7ae0"/>
+  <rect x="770" y="282" width="614" height="72" rx="18" fill="#dce8ff"/>
+  <rect x="770" y="392" width="614" height="42" rx="14" fill="#eaf2ff"/>
+  <rect x="770" y="454" width="614" height="42" rx="14" fill="#eaf2ff"/>
+  <rect x="770" y="516" width="614" height="42" rx="14" fill="#eaf2ff"/>
+  <rect x="770" y="578" width="450" height="42" rx="14" fill="#eaf2ff"/>
+  <text x="166" y="786" fill="#173978" font-family="Tahoma, Arial, sans-serif" font-size="58" font-weight="700">Student Enrollment Form</text>
+  <text x="166" y="846" fill="#60739b" font-family="Tahoma, Arial, sans-serif" font-size="30">Validated fields, clearer sectioning, and API-ready submission states</text>
+</svg>

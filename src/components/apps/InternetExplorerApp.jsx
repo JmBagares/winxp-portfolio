@@ -5,6 +5,7 @@ const YOUTUBE_REGEX = /(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([a-z
 
 const HOME_URL = 'portfolio://home';
 const SOCIAL_URL_PREFIX = 'portfolio://social/';
+const INTERNAL_PAGE_URL_PREFIX = 'portfolio://page/';
 const IFRAME_FALLBACK_DELAY_MS = 2500;
 const SEARCH_PROVIDER_LABEL = 'Wikipedia';
 const RICKROLL_URL = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
@@ -43,9 +44,47 @@ const SEARCH_SHORTCUTS = {
   messenger: `${SOCIAL_URL_PREFIX}messenger`,
   messanger: `${SOCIAL_URL_PREFIX}messenger`,
   instagram: `${SOCIAL_URL_PREFIX}instagram`,
+  profile: `${INTERNAL_PAGE_URL_PREFIX}profile`,
+  blog: `${INTERNAL_PAGE_URL_PREFIX}blog`,
+  guestbook: `${INTERNAL_PAGE_URL_PREFIX}guestbook`,
   yt: RICKROLL_URL,
   youtube: RICKROLL_URL,
   pornhub: LIKE_A_PRAYER_URL,
+};
+
+const INTERNAL_PAGE_CONTENT = {
+  profile: {
+    title: 'Jan Manuel Profile',
+    subtitle: 'Personal homepage snapshot',
+    accent: 'from-[#5f8fd9] to-[#284f9f]',
+    intro: portfolioData.profile.summary,
+    sections: [
+      { heading: 'About Me', body: portfolioData.profile.about[0] },
+      { heading: 'Now Building', body: 'React interfaces, nostalgic UI experiments, and practical front-end work that still feels polished and usable.' },
+    ],
+  },
+  blog: {
+    title: 'XP Dev Blog',
+    subtitle: 'Updates from the portfolio workstation',
+    accent: 'from-[#7b6ecf] to-[#33439c]',
+    intro: 'A fake early-2000s blog page built inside Internet Explorer for browsing atmosphere.',
+    sections: [
+      { heading: 'Entry 04: Desktop polish', body: 'Added drag-and-drop desktop icons, stronger shell theming, and more intentional mobile launcher behavior.' },
+      { heading: 'Entry 03: Browser experiments', body: 'Built fake profile, guestbook, and social pages so the IE app feels more alive inside the portfolio OS.' },
+      { heading: 'Entry 02: Project folders', body: 'Turned project cards into a folder explorer with screenshots, stack badges, and action links.' },
+    ],
+  },
+  guestbook: {
+    title: 'Guestbook',
+    subtitle: 'Old-school visitor notes',
+    accent: 'from-[#43a7b9] to-[#226f84]',
+    intro: 'A nostalgic fake guestbook page that makes the portfolio browser feel more like a real retro site.',
+    sections: [
+      { heading: 'Visitor 01', body: 'Love the Windows XP atmosphere. The shell interactions make it feel like more than a normal portfolio.' },
+      { heading: 'Visitor 02', body: 'Messenger, Control Panel, and the fake browser pages make the experience memorable.' },
+      { heading: 'Visitor 03', body: 'Project folder view is a strong upgrade. It makes the work easier to browse without breaking the theme.' },
+    ],
+  },
 };
 
 const SOCIAL_MOCK_CONTENT = {
@@ -332,8 +371,16 @@ function isSocialPage(url) {
   return url.startsWith(SOCIAL_URL_PREFIX);
 }
 
+function isInternalPage(url) {
+  return url.startsWith(INTERNAL_PAGE_URL_PREFIX);
+}
+
 function getSocialKey(url) {
   return url.replace(SOCIAL_URL_PREFIX, '').trim().toLowerCase();
+}
+
+function getInternalPageKey(url) {
+  return url.replace(INTERNAL_PAGE_URL_PREFIX, '').trim().toLowerCase();
 }
 
 function isYouTubeDomain(url) {
@@ -440,14 +487,17 @@ export default function InternetExplorerApp() {
   const embedUrl = isYouTube(currentUrl) ? getEmbedUrl(currentUrl) : null;
   const isHomePage = currentUrl === HOME_URL;
   const isSocialShortcutPage = isSocialPage(currentUrl);
+  const isInternalRetroPage = isInternalPage(currentUrl);
   const socialPageKey = isSocialShortcutPage ? getSocialKey(currentUrl) : null;
+  const internalPageKey = isInternalRetroPage ? getInternalPageKey(currentUrl) : null;
+  const internalPageContent = internalPageKey ? INTERNAL_PAGE_CONTENT[internalPageKey] : null;
   const socialPageConfig = socialPageKey ? SOCIAL_PAGE_CONFIG[socialPageKey] : null;
   const socialProfiles = portfolioData.contacts.socialProfiles ?? {};
   const socialTargetUrl = socialPageKey
     ? (socialProfiles[socialPageKey] || socialPageConfig?.defaultUrl || '')
     : '';
   const socialMockContent = socialPageKey ? SOCIAL_MOCK_CONTENT[socialPageKey] : null;
-  const canOpenExternally = !isHomePage && !isSocialShortcutPage && Boolean(currentUrl);
+  const canOpenExternally = !isHomePage && !isSocialShortcutPage && !isInternalRetroPage && Boolean(currentUrl);
   const isBlockedYouTubeShell = !embedUrl && isYouTubeDomain(currentUrl);
 
   const openExternal = (url) => {
@@ -582,6 +632,34 @@ export default function InternetExplorerApp() {
     );
   };
 
+  const renderInternalPage = () => {
+    if (!internalPageContent) {
+      return null;
+    }
+
+    return (
+      <div className="h-full overflow-auto bg-[#f4f0e8] p-5 text-[12px] text-[#2b2b2b]">
+        <div className={`rounded border border-[#9db4d8] bg-linear-to-r ${internalPageContent.accent} px-4 py-4 text-white shadow-[inset_1px_1px_rgba(255,255,255,0.18)]`}>
+          <div className="text-[28px] font-bold" style={{ fontFamily: 'Georgia, Times New Roman, serif' }}>{internalPageContent.title}</div>
+          <div className="mt-1 text-[12px] text-white/90">{internalPageContent.subtitle}</div>
+        </div>
+
+        <div className="mt-4 rounded border border-[#d4cbbd] bg-[#fffdf9] p-4 leading-6 shadow-[inset_1px_1px_rgba(255,255,255,0.9)]">
+          <p className="m-0 text-[13px]">{internalPageContent.intro}</p>
+        </div>
+
+        <div className="mt-4 space-y-4">
+          {internalPageContent.sections.map((section) => (
+            <section key={section.heading} className="rounded border border-[#d4cbbd] bg-white p-4 shadow-[inset_1px_1px_rgba(255,255,255,0.9)]">
+              <div className="mb-2 text-[18px] font-bold text-[#2b4c8d]" style={{ fontFamily: 'Georgia, Times New Roman, serif' }}>{section.heading}</div>
+              <p className="m-0 text-[13px] leading-6 text-[#434343]">{section.body}</p>
+            </section>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="flex flex-col h-full bg-[#ece9d8] font-['Tahoma'] select-none text-[11px]">
 
@@ -691,7 +769,9 @@ export default function InternetExplorerApp() {
               <section className="rounded border border-[#d5d5d5] p-4">
                 <h3 className="mb-2 text-sm font-bold text-[#003399]">Quick Links</h3>
                 <div className="flex flex-col gap-2 text-sm">
-                  <button type="button" onClick={() => openExternal(portfolioData.contacts.website)} className="text-left text-[#215dc6] underline">Website</button>
+                  {portfolioData.contacts.website && (
+                    <button type="button" onClick={() => openExternal(portfolioData.contacts.website)} className="text-left text-[#215dc6] underline">Website</button>
+                  )}
                   <button type="button" onClick={() => openExternal(portfolioData.contacts.github)} className="text-left text-[#215dc6] underline">GitHub</button>
                   <button type="button" onClick={() => openExternal(portfolioData.contacts.linkedin)} className="text-left text-[#215dc6] underline">LinkedIn</button>
                   <button type="button" onClick={() => openExternal(`mailto:${portfolioData.contacts.email}`)} className="text-left text-[#215dc6] underline">E-mail</button>
@@ -713,6 +793,9 @@ export default function InternetExplorerApp() {
                 <button type="button" onClick={() => navigate('https://example.com')} className="text-left text-[#215dc6] underline">Open example.com</button>
                 <button type="button" onClick={() => navigate('https://en.m.wikipedia.org/wiki/Windows_XP')} className="text-left text-[#215dc6] underline">Open a Wikipedia article</button>
                 <button type="button" onClick={() => navigate('https://www.youtube.com/watch?v=dQw4w9WgXcQ')} className="text-left text-[#215dc6] underline">Open a YouTube video URL</button>
+                <button type="button" onClick={() => navigate(`${INTERNAL_PAGE_URL_PREFIX}profile`)} className="text-left text-[#215dc6] underline">Open profile page</button>
+                <button type="button" onClick={() => navigate(`${INTERNAL_PAGE_URL_PREFIX}blog`)} className="text-left text-[#215dc6] underline">Open blog page</button>
+                <button type="button" onClick={() => navigate(`${INTERNAL_PAGE_URL_PREFIX}guestbook`)} className="text-left text-[#215dc6] underline">Open guestbook page</button>
               </div>
             </section>
 
@@ -773,6 +856,10 @@ export default function InternetExplorerApp() {
               </p>
             </div>
           </div>
+        ) : isSocialShortcutPage && socialPageConfig ? (
+          renderSocialMockPage()
+        ) : isInternalRetroPage ? (
+          renderInternalPage()
         ) : embedUrl ? (
           // YouTube embed player
           <iframe
@@ -784,8 +871,6 @@ export default function InternetExplorerApp() {
             title="YouTube Player"
             onLoad={handleLoadComplete}
           />
-        ) : isSocialShortcutPage && socialPageConfig ? (
-          renderSocialMockPage()
         ) : (
           // Normal iframe
           <>
@@ -844,6 +929,8 @@ export default function InternetExplorerApp() {
             ? 'Cannot display webpage'
             : isSocialShortcutPage
               ? `${socialPageConfig?.label ?? 'Social'} shortcut loaded`
+              : isInternalRetroPage
+                ? `${internalPageContent?.title ?? 'Retro page'} loaded`
             : isBlockedYouTubeShell
               ? 'YouTube browsing is limited in this window'
             : showExternalFallback

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Food ecommerce storefront capture</title>
+  <desc id="desc">A stylized product grid screenshot for the food ecommerce project.</desc>
+  <rect width="1600" height="900" fill="#fff5ea"/>
+  <rect x="96" y="74" width="1408" height="754" rx="30" fill="#ffffff" stroke="#f0d6ba" stroke-width="6"/>
+  <rect x="96" y="74" width="1408" height="108" rx="30" fill="#ff914d"/>
+  <rect x="150" y="118" width="290" height="28" rx="14" fill="#ffd2ae"/>
+  <rect x="180" y="232" width="322" height="534" rx="26" fill="#fffaf4" stroke="#f0dfcf" stroke-width="4"/>
+  <rect x="550" y="232" width="862" height="534" rx="26" fill="#fffaf4" stroke="#f0dfcf" stroke-width="4"/>
+  <rect x="218" y="286" width="246" height="26" rx="13" fill="#ffe2c7"/>
+  <rect x="218" y="334" width="246" height="26" rx="13" fill="#fff0de"/>
+  <rect x="218" y="382" width="246" height="26" rx="13" fill="#fff0de"/>
+  <rect x="604" y="284" width="214" height="184" rx="22" fill="#ffb778"/>
+  <rect x="874" y="284" width="214" height="184" rx="22" fill="#ffc971"/>
+  <rect x="1144" y="284" width="214" height="184" rx="22" fill="#9ad68a"/>
+  <rect x="604" y="520" width="214" height="184" rx="22" fill="#ff6f61"/>
+  <rect x="874" y="520" width="214" height="184" rx="22" fill="#6db3ff"/>
+  <rect x="1144" y="520" width="214" height="184" rx="22" fill="#f0b34c"/>
+  <text x="178" y="796" fill="#8a3d00" font-family="Tahoma, Arial, sans-serif" font-size="56" font-weight="700">Food Ecommerce Storefront</text>
+  <text x="178" y="846" fill="#9e6e43" font-family="Tahoma, Arial, sans-serif" font-size="30">Reusable cards, category filters, and an API-fed shopping experience</text>
+</svg>

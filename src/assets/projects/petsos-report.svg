@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">PetSOS report workflow capture</title>
+  <desc id="desc">A stylized incident report form screenshot for PetSOS.</desc>
+  <rect width="1600" height="900" fill="#eef6f2"/>
+  <rect x="118" y="76" width="1364" height="744" rx="32" fill="#ffffff" stroke="#c8ddd4" stroke-width="6"/>
+  <rect x="118" y="76" width="1364" height="102" rx="32" fill="#2f9140"/>
+  <rect x="170" y="118" width="340" height="28" rx="14" fill="#b4e2be"/>
+  <rect x="170" y="230" width="516" height="508" rx="24" fill="#f7fbf8" stroke="#d4e4de" stroke-width="4"/>
+  <rect x="734" y="230" width="696" height="224" rx="24" fill="#f7fbf8" stroke="#d4e4de" stroke-width="4"/>
+  <rect x="734" y="488" width="696" height="250" rx="24" fill="#f7fbf8" stroke="#d4e4de" stroke-width="4"/>
+  <rect x="216" y="284" width="424" height="20" rx="10" fill="#d7e8de"/>
+  <rect x="216" y="330" width="424" height="58" rx="14" fill="#ffffff" stroke="#b7d1c8" stroke-width="3"/>
+  <rect x="216" y="430" width="424" height="20" rx="10" fill="#d7e8de"/>
+  <rect x="216" y="476" width="424" height="58" rx="14" fill="#ffffff" stroke="#b7d1c8" stroke-width="3"/>
+  <rect x="216" y="578" width="270" height="76" rx="18" fill="#2f9140"/>
+  <rect x="782" y="278" width="602" height="32" rx="16" fill="#dce8ff"/>
+  <rect x="782" y="336" width="602" height="76" rx="20" fill="#ffefc9"/>
+  <rect x="782" y="548" width="602" height="28" rx="14" fill="#d7e8de"/>
+  <rect x="782" y="602" width="602" height="28" rx="14" fill="#ecf4f0"/>
+  <rect x="782" y="656" width="420" height="28" rx="14" fill="#ecf4f0"/>
+  <text x="170" y="776" fill="#173978" font-family="Tahoma, Arial, sans-serif" font-size="56" font-weight="700">Rescue Report Flow</text>
+</svg>
